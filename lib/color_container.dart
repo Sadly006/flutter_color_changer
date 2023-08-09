@@ -10,22 +10,22 @@ class ColorContainer extends StatefulWidget {
 }
 
 class _ColorContainerState extends State<ColorContainer> {
-  Color? _generatedColor;
+  Color _currentColor = Colors.white;
+  int argb = 255;
 
   @override
   void initState() {
     super.initState();
-    _generateRandomColor();
   }
 
   void _generateRandomColor() {
     final random = Random();
     setState(() {
-      _generatedColor = Color.fromARGB(
-        255,
-        random.nextInt(256),
-        random.nextInt(256),
-        random.nextInt(256),
+      _currentColor = Color.fromARGB(
+        argb,
+        random.nextInt(argb +1),
+        random.nextInt(argb +1),
+        random.nextInt(argb +1),
       );
     });
   }
@@ -37,7 +37,7 @@ class _ColorContainerState extends State<ColorContainer> {
       onTap: _generateRandomColor,
       child: Container(
         key: const Key('color_container'),
-        color: _generatedColor,
+        color: _currentColor,
         child: const Center(
           child: Text(
             "Hello World",
