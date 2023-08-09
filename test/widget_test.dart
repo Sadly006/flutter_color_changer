@@ -6,25 +6,38 @@
 // tree, read text, and verify that the values of widget properties are correct.
 
 import 'package:flutter/material.dart';
+import 'package:flutter_color_changer/main.dart';
 import 'package:flutter_test/flutter_test.dart';
 
-import 'package:flutter_color_changer/main.dart';
-
 void main() {
-  testWidgets('Counter increments smoke test', (WidgetTester tester) async {
-    // Build our app and trigger a frame.
+  testWidgets('Color generator test', (WidgetTester tester) async {
+    // Build your app and trigger a frame.
     await tester.pumpWidget(const MyApp());
 
-    // Verify that our counter starts at 0.
-    expect(find.text('0'), findsOneWidget);
-    expect(find.text('1'), findsNothing);
+    // Find the element that handels the taps.
+    final gesterDetectorElement = 
+          find.byKey(const Key('gesture_detector_element'));
 
-    // Tap the '+' icon and trigger a frame.
-    await tester.tap(find.byIcon(Icons.add));
+    // Find the element that displays the generated color.
+    final colorContainer = find.byKey(const Key('color_container'));
+
+    // Get the initial color from the container.
+    final initialColor = _getColorFromContainer(colorContainer, tester);
+
+    // Tap the container to change the color.
+    await tester.tap(gesterDetectorElement);
     await tester.pump();
 
-    // Verify that our counter has incremented.
-    expect(find.text('0'), findsNothing);
-    expect(find.text('1'), findsOneWidget);
+    // Get the new color from the container.
+    final newColor = _getColorFromContainer(colorContainer, tester);
+
+    // Verify that the color has changed.
+    expect(newColor, isNot(equals(initialColor)));
   });
+}
+
+Color? _getColorFromContainer(Finder finder, WidgetTester tester) {
+  final container = tester.widget<Container>(finder);
+
+  return container.color;
 }
