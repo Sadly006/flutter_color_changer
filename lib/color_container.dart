@@ -35,7 +35,7 @@ class _ColorContainerState extends State<ColorContainer> {
     return GestureDetector(
       key: const Key('gesture_detector_element'),
       onTap: _generateRandomColor,
-      child: Container(
+      child: ColoredBox(
         key: const Key('color_container'),
         color: _currentColor,
         child: const Center(
